@@ -7,38 +7,41 @@ class Coupons extends Module
 {
     public function __construct()
     {
-        $this->name = 'coupons';        
-        $this->tab = 'administration';   
+        $this->name = 'coupons';
+        $this->tab = 'administration';
         $this->version = '1.0.0';
-        $this->author = 'Sergio Cova';        
+        $this->author = 'Sergio Cova';
         $this->need_instance = 0;
         $this->ps_versions_compliancy = ['min' => '1.6','max' => '1.7.0'];
-        $this->bootstrap = true;        
+        $this->bootstrap = true;
+
         parent::__construct();
+
         $this->displayName = $this->l('Coupons');
         $this->description = $this->l('This is a discount coupon management module');
-        $this->confirmUninstall = $this->l('Are you sure you want to uninstall?');    
-        
-        if (!Configuration::get('MYMODULE_NAME')) {
-            $this->warning = $this->l('No name provided');
-        }
+        $this->confirmUninstall = $this->l('Are you sure you want to uninstall?');
     }
 
     public function install()
     {
-        if( !parent::install())
+        if(!parent::install() || !$this->registerHook('displayTop'))
             return false;
-        //$this->installModuleTab();
-        return true;        
-    }    
-
+        $this->installModuleTab();
+        return true;
+    }
+           
+    
     public function uninstall()
     {
-        if( !parent::uninstall())
+        if(!parent::uninstall() || !$this->unregisterHook('displayTop'))
             return false;
-        //$this->uninstallModuleTab();
-        return true;        
-    }        
+        $this->uninstallModuleTab();
+        return true;
+    }       
+
+    public function hookDisplayTop(){
+        return $this->display(__FILE__, 'views/templates/hook/coupons.tpl');
+    }
 
     public function installModuleTab()
     {
@@ -64,6 +67,7 @@ class Coupons extends Module
         return true;
     }
 
+    /*
     public function  getContent()
     {
         return $this->postProcess() . $this->getForm();
@@ -176,4 +180,5 @@ class Coupons extends Module
 
         }
     }
+    */
 }
