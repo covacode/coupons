@@ -38,8 +38,9 @@ class Coupons extends Module
         return true;
     }       
 
-    public function hookDisplayTop(){
-        return $this->display(__FILE__, 'views/templates/hook/coupons.tpl');
+    public function hookDisplayTop()
+    {        
+        return $this->display(__FILE__, 'views/templates/hook/coupons.tpl');        
     }
 
     public function installModuleTab()
