@@ -24,7 +24,7 @@ class Coupons extends Module
 
     public function install()
     {
-        if(!parent::install() || !$this->registerHook('displayTop'))
+        if(!parent::install() || !$this->registerHook('displayHome'))
             return false;
         $this->installModuleTab();
         return true;
@@ -32,13 +32,13 @@ class Coupons extends Module
                
     public function uninstall()
     {
-        if(!parent::uninstall() || !$this->unregisterHook('displayTop'))
+        if(!parent::uninstall() || !$this->unregisterHook('displayHome'))
             return false;
         $this->uninstallModuleTab();
         return true;
     }       
 
-    public function hookDisplayTop()
+    public function hookDisplayHome()
     {     
         $texto = 'Hola Mundo';
         $this->context->smarty->assign(array(
