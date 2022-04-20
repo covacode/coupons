@@ -39,8 +39,12 @@ class Coupons extends Module
     }       
 
     public function hookDisplayTop()
-    {        
-        return $this->display(__FILE__, 'views/templates/hook/coupons.tpl');        
+    {     
+        $texto = 'Hola Mundo';
+        $this->context->smarty->assign(array(
+            'texto_variable' => $texto,
+        ));
+        return $this->context->smarty->fetch($this->local_path.'views/templates/hook/coupons.tpl');              
     }
 
     public function installModuleTab()
