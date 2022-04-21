@@ -12,7 +12,7 @@ class CouponsModel extends CouponsObjectModel
     public $discount_code;    
     public $date_add;
     public $date_upd; 
-    public $active;
+    public $active = true;
 
     public static $definition = [
         'table'     => 'coupons',
@@ -20,12 +20,12 @@ class CouponsModel extends CouponsObjectModel
         'multilang' => false,
         'fields'    => [
             'id_coupons'   => ['type' => self::TYPE_INT, 'validate' => 'isInt'],
-            'supplier_name'         => ['type' => self::TYPE_STRING, 'db_type' => 'varchar(50)', 'lang' => true],
-            'supplier_logo'         => ['type' => self::TYPE_STRING, 'db_type' => 'varchar(255)', 'lang' => true],
-            'description'         => ['type' => self::TYPE_STRING, 'db_type' => 'varchar(100)', 'lang' => true],
-            'img_cover'         => ['type' => self::TYPE_STRING, 'db_type' => 'varchar(255)', 'lang' => true],
-            'discount_rate'         => ['type' => self::TYPE_STRING, 'db_type' => 'varchar(10)', 'lang' => true],
-            'discount_code'         => ['type' => self::TYPE_STRING, 'db_type' => 'varchar(10)', 'lang' => true],            
+            'supplier_name'         => ['type' => self::TYPE_STRING, 'db_type' => 'varchar(50)', 'lang' => false],
+            'supplier_logo'         => ['type' => self::TYPE_STRING, 'db_type' => 'varchar(255)', 'lang' => false],
+            'description'         => ['type' => self::TYPE_STRING, 'db_type' => 'varchar(100)', 'lang' => false],
+            'img_cover'         => ['type' => self::TYPE_STRING, 'db_type' => 'varchar(255)', 'lang' => false],
+            'discount_rate'         => ['type' => self::TYPE_STRING, 'db_type' => 'varchar(10)', 'lang' => false],
+            'discount_code'         => ['type' => self::TYPE_STRING, 'db_type' => 'varchar(10)', 'lang' => false],            
             'date_add'      => [
                 'type'     => self::TYPE_DATE,
                 'validate' => 'isDate',
