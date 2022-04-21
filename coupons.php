@@ -24,7 +24,9 @@ class Coupons extends Module
 
     public function install()
     {
-        if(!parent::install() || !$this->registerHook('displayHome'))
+        if(!parent::install() || 
+            !$this->registerHook('displayHome') ||
+            !$this->registerHook('displayHeader'))
             return false;
         $this->installModuleTab();
         return true;
@@ -32,7 +34,9 @@ class Coupons extends Module
                
     public function uninstall()
     {
-        if(!parent::uninstall() || !$this->unregisterHook('displayHome'))
+        if(!parent::uninstall() || 
+            !$this->unregisterHook('displayHome') ||
+            !$this->unregisterHook('displayHeader'))
             return false;
         $this->uninstallModuleTab();
         return true;
@@ -45,6 +49,11 @@ class Coupons extends Module
             'texto_variable' => $texto,
         ));
         return $this->context->smarty->fetch($this->local_path.'views/templates/hook/coupons.tpl');              
+    }
+
+    public function hookDisplayHeader()
+    {     
+        $this->context->controller->addCSS($this->local_path.'views/css/estilos.css');
     }
 
     public function installModuleTab()
