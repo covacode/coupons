@@ -12,7 +12,9 @@ class CouponsModel extends CouponsObjectModel
     public $discount_code;    
     public $date_add;
     public $date_upd; 
-    public $active = true;
+    public $active = true;    
+    public static $folder_logo_dir = _PS_IMG_DIR_.'couponsLogo';
+    public static $folder_cover_dir = _PS_IMG_DIR_.'couponsCover';
 
     public static $definition = [
         'table'     => 'coupons',

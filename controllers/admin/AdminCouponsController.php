@@ -13,6 +13,18 @@ class AdminCouponsController extends ModuleAdminController
 
         Db::getInstance()->executeS('SELECT * FROM '._DB_PREFIX_.$this->table);
 
+        $this->fieldImageSettings =
+        array (
+            array(
+                'name' => 'supplier_logo',
+                'dir' => 'couponsLogo'
+            ),
+            array(
+                'name' => 'img_cover',
+                'dir' => 'couponsCover'
+            )
+        );        
+
         $this->fields_list = [
             'id_coupons'       => [
                 'title' => $this->l('ID'),
@@ -26,7 +38,7 @@ class AdminCouponsController extends ModuleAdminController
             ],
             'supplier_logo' => [
                 'title' => $this->l('Logo'),
-                'image' => 'm',
+                'image' => 'couponsLogo',
                 'orderby' => false,
                 'search' => false,
                 'align' => 'center',
@@ -35,13 +47,15 @@ class AdminCouponsController extends ModuleAdminController
                 'title' => $this->l('Description'),
                 'type'  => 'text',
             ],
+            /*
             'img_cover' => [
                 'title' => $this->l('Cover'),
-                'image' => 'm',
+                'image' => 'couponsCover',
                 'orderby' => false,
                 'search' => false,
                 'align' => 'center',
-            ],             
+            ],       
+            */      
             'discount_rate'     => [
                 'title' => $this->l('Discount Rate'),
                 'type'  => 'text',
@@ -85,16 +99,16 @@ class AdminCouponsController extends ModuleAdminController
             return;
         }
 
-        $logo = $this->local_path.'views/img/logo_'.$coupons->id.'.png';
-        $logo_url = ImageManager::thumbnail($logo, $this->table.'_'.(int)$coupons->id.'.'.$this->imageType, 350,
-            $this->imageType, true, true);
-        $logo_size = file_exists($logo) ? filesize($logo) / 1000 : false;
-
-        $cover = $this->local_path.'views/img/logo_'.$coupons->id.'.png';
-        $cover_url = ImageManager::thumbnail($cover, $this->table.'_'.(int)$coupons->id.'.'.$this->imageType, 350,
-            $this->imageType, true, true);
+        $cover = CouponsModel::$folder_cover_dir.'/'.$coupons->id.'.jpg';
+        $cover_url = ImageManager::thumbnail($cover, $this->table.'_cover_'.(int)$coupons->id.'.'.$this->imageType, 350,
+            $this->imageType, false, false);
         $cover_size = file_exists($cover) ? filesize($cover) / 1000 : false;
 
+        $logo = CouponsModel::$folder_logo_dir.'/'.$coupons->id.'.jpg';
+        $logo_url = ImageManager::thumbnail($logo, $this->table.'_logo_'.(int)$coupons->id.'.'.$this->imageType, 350,
+            $this->imageType, false, false);
+        $logo_size = file_exists($logo) ? filesize($logo) / 1000 : false;
+                        
         $this->fields_form = array(
             'tinymce' => true,
             'legend' => array(
@@ -188,20 +202,5 @@ class AdminCouponsController extends ModuleAdminController
     public function initContent()
     {
         parent::initContent();       
-    }
-
-    public function postProcess()
-    {        
-        $demo = array(
-            'supplier_name' => Tools::getValue('supplier_name'),
-            'supplier_logo' => Tools::getValue('supplier_logo'),
-            'description' => Tools::getValue('description'),
-            'description' => Tools::getValue('description'),
-            'img_cover' => Tools::getValue('img_cover'),
-            'discount_rate' => Tools::getValue('discount_rate'),
-            'discount_code' => Tools::getValue('discount_code'),
-        );           
-        parent::postProcess();     
-        //d($demo);
-    }
+    }    
 }

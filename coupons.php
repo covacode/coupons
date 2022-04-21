@@ -3,6 +3,9 @@ if (!defined('_PS_VERSION_')) {
     exit;
 }
 
+if(!class_exists('CouponsModel'))
+    require_once _PS_MODULE_DIR_ . 'coupons/classes/CouponsModel.php';
+
 class Coupons extends Module
 {
     /**
@@ -48,12 +51,14 @@ class Coupons extends Module
             $modelInstance->createMissingColumns();
         }
 
-        if(!parent::install() || 
+        if(!parent::install() ||             
             !$this->registerHook('displayHomeTab') ||
             !$this->registerHook('displayHomeTabContent') ||
-            !$this->registerHook('displayHeader'))
+            !$this->registerHook('displayHeader') ||            
+            !$this->installFolderLogo()||
+            !$this->installFolderCover())
             return false;
-        $this->installModuleTab();        
+        $this->installModuleTab();            
         return true;
     }
           
@@ -129,4 +134,21 @@ class Coupons extends Module
         }
         return true;
     }        
+
+    /**
+    * Module installFolders
+    */    
+    public function installFolderLogo()
+    {
+        if(!file_exists(CouponsModel::$folder_logo_dir))
+            return mkdir(CouponsModel::$folder_logo_dir, '0777');
+        return true;
+    }
+
+    public function installFolderCover()
+    {
+        if(!file_exists(CouponsModel::$folder_cover_dir))
+            return mkdir(CouponsModel::$folder_cover_dir, '0777');
+        return true;
+    }
 }
