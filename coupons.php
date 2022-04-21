@@ -93,6 +93,8 @@ class Coupons extends Module
         $coupons = CouponsModel::getCoupons(10, true);                    
         $this->context->smarty->assign(array(
             'coupons' => $coupons,
+            'pathLogo' => 'http://localhost/PrestaShop/img/couponsLogo/',
+            'pathCover' => 'http://localhost/PrestaShop/img/couponsCover/'
         ));
 
         //ddd($this->context->smarty);
