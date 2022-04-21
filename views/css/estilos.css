@@ -1,22 +1,23 @@
-.thumbnail {
-	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
+.thumbnailCoupons {
+	box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.5);
 	transition: 0.3s;
 	min-width: 40%;	
-	border-radius: 5px;
+	border-radius: 5px;	
+	padding-bottom: 5px;
 }
 
-.thumbnail:hover {
+.thumbnailCoupons:hover {
 	cursor: pointer;
 	box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.5);
-}
-
-.bg-danger {
-	background-color: red;
 }
 
 .img-back {
 	position: relative;
 	z-index: 1;	
+	width:100%;
+	min-height:150px;
+	max-height:150px;
+	border-radius: 5px 5px 0px 0px;
 }
 
 .img-front {
@@ -26,18 +27,30 @@
 	border:none;
 	z-index: 3;
 	border-radius: 5px;
+	width:90px;
+	min-height:90px;
+	max-height:90px;
 } 
 
 .card-title {
 	color: black;
 	font-weight: 500;
+	min-height:30px;
+	max-height:30px;
+	text-overflow: ellipsis;	
 }
 
 .card-description {
 	color: gray;
+	min-height:30px;
+	max-height:30px;
+	text-overflow: ellipsis;	
 }
 
 .card-percentage {
 	color: black;
 	font-weight: 700;
+	min-height:30px;
+	max-height:30px;
+	text-overflow: ellipsis;	
 }
