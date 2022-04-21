@@ -40,5 +40,22 @@ class CouponsModel extends CouponsObjectModel
             ],
             'active'       => ['type' => self::TYPE_BOOL, 'validate' => 'isBool', 'db_type' => 'int(1)'],
         ],
-    ];       
+    ]; 
+    
+    public static function getLogoPath() {
+        return _PS_IMG_DIR_.'couponsLogo/';
+    }
+
+    public static function getCoverPath() {
+        return _PS_IMG_DIR_.'couponsCover/';
+    }
+
+    public static function getCoupons($limit = 10 , $active = true) {
+        $q = new DbQuery();
+        $q->select('*')
+            ->from('coupons')
+            ->limit($limit)
+            ->where('active='.(int)$active);
+        return Db::getInstance()->executeS($q);
+    }
 }

@@ -90,10 +90,12 @@ class Coupons extends Module
     */
     public function hookDisplayHomeTabContent()
     {     
-        $texto = 'Hola Mundo';
+        $coupons = CouponsModel::getCoupons(10, true);                    
         $this->context->smarty->assign(array(
-            'texto_variable' => $texto,
+            'coupons' => $coupons,
         ));
+
+        //ddd($this->context->smarty);
         return $this->context->smarty->fetch($this->local_path.'views/templates/hook/couponsTabContent.tpl');              
     }
 
