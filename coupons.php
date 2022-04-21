@@ -5,6 +5,17 @@ if (!defined('_PS_VERSION_')) {
 
 class Coupons extends Module
 {
+    /**
+     * The models should extends CouponsObjectModel.
+     * When installing, the module will create the relative to each model
+     * in the database. If the table already exists, any missing coluns
+     * in it will be added.
+     */
+    public $models = ['CouponsModel'];
+    
+    /**
+    * Module __construct
+    */
     public function __construct()
     {
         $this->name = 'coupons';
@@ -22,35 +33,56 @@ class Coupons extends Module
         $this->confirmUninstall = $this->l('Are you sure you want to uninstall?');
     }
 
+    /**
+    * Module install
+    */
     public function install()
-    {
+    {        
         $this->_clearCache('*');
+
+        foreach ($this->models as $model)
+        {
+            require_once $this->local_path.'classes/' . $model . '.php';
+            $modelInstance = new $model();
+            $modelInstance->createDatabase();
+            $modelInstance->createMissingColumns();
+        }
+
         if(!parent::install() || 
             !$this->registerHook('displayHomeTab') ||
             !$this->registerHook('displayHomeTabContent') ||
             !$this->registerHook('displayHeader'))
             return false;
-        $this->installModuleTab();
+        $this->installModuleTab();        
         return true;
     }
-               
+          
+    /**
+    * Module uninstall
+    */
     public function uninstall()
-    {
+    {        
         if(!parent::uninstall() || 
             !$this->unregisterHook('displayHomeTab') ||
             !$this->unregisterHook('displayHomeTabContent') ||
             !$this->unregisterHook('displayHeader'))
             return false;
-        $this->uninstallModuleTab();
+        $this->uninstallModuleTab();        
         $this->_clearCache('*');
         return true;
     }       
 
+    /**
+    * Module hookDisplayHomeTab
+    */
     public function hookDisplayHomeTab()
     {             
         return $this->context->smarty->fetch($this->local_path.'views/templates/hook/couponsTab.tpl');              
     }
 
+    /**
+    * Module hookDisplayHomeTabContent
+    */
     public function hookDisplayHomeTabContent()
     {     
         $texto = 'Hola Mundo';
@@ -60,11 +92,17 @@ class Coupons extends Module
         return $this->context->smarty->fetch($this->local_path.'views/templates/hook/couponsTabContent.tpl');              
     }
 
+    /**
+    * Module hookDisplayHeader
+    */
     public function hookDisplayHeader()
     {     
         $this->context->controller->addCSS($this->local_path.'views/css/estilos.css');
     }
 
+    /**
+    * Module installModuleTab
+    */
     public function installModuleTab()
     {
         $tab = new Tab;
@@ -77,6 +115,9 @@ class Coupons extends Module
         return $tab->save();
     }
 
+    /**
+    * Module uninstallModuleTab
+    */
     public function uninstallModuleTab()
     {
         $id_tab = Tab::getIdFromClassName('AdminCoupons');
@@ -87,5 +128,5 @@ class Coupons extends Module
             return $tab->delete();
         }
         return true;
-    }    
+    }        
 }
