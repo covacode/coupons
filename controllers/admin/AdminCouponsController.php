@@ -46,16 +46,7 @@ class AdminCouponsController extends ModuleAdminController
             'description'     => [
                 'title' => $this->l('Description'),
                 'type'  => 'text',
-            ],
-            /*
-            'img_cover' => [
-                'title' => $this->l('Cover'),
-                'image' => 'couponsCover',
-                'orderby' => false,
-                'search' => false,
-                'align' => 'center',
-            ],       
-            */      
+            ],                 
             'discount_rate'     => [
                 'title' => $this->l('Discount Rate'),
                 'type'  => 'text',
@@ -132,8 +123,7 @@ class AdminCouponsController extends ModuleAdminController
                     'size' => $logo_size,
                     'display_image' => true,
                     'col' => 6,
-                    'hint' => $this->l('Upload a supplier logo from your computer.'),
-                    'required' => true,
+                    'hint' => $this->l('Upload a supplier logo from your computer.'),                    
                 ),
                 array(
                     'type' => 'textarea',
@@ -153,8 +143,7 @@ class AdminCouponsController extends ModuleAdminController
                     'size' => $cover_size,
                     'display_image' => true,
                     'col' => 6,
-                    'hint' => $this->l('Upload a coupon cover from your computer.'),
-                    'required' => true,
+                    'hint' => $this->l('Upload a coupon cover from your computer.'),                    
                 ),
                 array(
                     'type' => 'text',
@@ -170,8 +159,7 @@ class AdminCouponsController extends ModuleAdminController
                     'name' => 'discount_code',
                     'col' => 4,
                     'required' => true,
-                    'hint' => $this->l('Invalid characters:').' &lt;&gt;;=#{}',
-                    'value' => $this->generarCodigo(7),
+                    'hint' => $this->l('Invalid characters:').' &lt;&gt;;=#{}',                    
                 ),                
                 array(
                     'type' => 'switch',
@@ -235,14 +223,14 @@ class AdminCouponsController extends ModuleAdminController
             return false;
         }
 
-        return true;     
+        parent::postProcess();    
     }
 
-    function generarCodigo($longitud) {
+    public function generarCodigo($longitud) {
         $key = '';
         $pattern = '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $max = strlen($pattern)-1;
         for($i=0;$i < $longitud;$i++) $key .= $pattern{mt_rand(0,$max)};
         return $key;
-    } 
+    }     
 }
