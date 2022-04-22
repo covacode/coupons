@@ -132,12 +132,14 @@ class AdminCouponsController extends ModuleAdminController
                     'size' => $logo_size,
                     'display_image' => true,
                     'col' => 6,
-                    'hint' => $this->l('Upload a supplier logo from your computer.')
+                    'hint' => $this->l('Upload a supplier logo from your computer.'),
+                    'required' => true,
                 ),
                 array(
                     'type' => 'textarea',
                     'label' => $this->l('Description'),
-                    'name' => 'description',                    
+                    'name' => 'description',
+                    'required' => true,                    
                     'cols' => 60,
                     'rows' => 10,
                     'col' => 6,                    
@@ -151,7 +153,8 @@ class AdminCouponsController extends ModuleAdminController
                     'size' => $cover_size,
                     'display_image' => true,
                     'col' => 6,
-                    'hint' => $this->l('Upload a coupon cover from your computer.')
+                    'hint' => $this->l('Upload a coupon cover from your computer.'),
+                    'required' => true,
                 ),
                 array(
                     'type' => 'text',
@@ -159,7 +162,7 @@ class AdminCouponsController extends ModuleAdminController
                     'name' => 'discount_rate',
                     'col' => 4,
                     'required' => true,
-                    'hint' => $this->l('Invalid characters:').' &lt;&gt;;=#{}'
+                    'hint' => $this->l('Invalid characters:').' &lt;&gt;;=#{}',                    
                 ),
                 array(
                     'type' => 'text',
@@ -167,7 +170,8 @@ class AdminCouponsController extends ModuleAdminController
                     'name' => 'discount_code',
                     'col' => 4,
                     'required' => true,
-                    'hint' => $this->l('Invalid characters:').' &lt;&gt;;=#{}'
+                    'hint' => $this->l('Invalid characters:').' &lt;&gt;;=#{}',
+                    'value' => $this->generarCodigo(7),
                 ),                
                 array(
                     'type' => 'switch',
@@ -201,6 +205,44 @@ class AdminCouponsController extends ModuleAdminController
    
     public function initContent()
     {
-        parent::initContent();       
-    }    
+        parent::initContent();
+    }
+           
+    public function postProcess()
+    {        
+        $errors = array();
+
+        if (Tools::strlen(Tools::getValue('supplier_name')) == 0){
+            $errors[] = $this->l('The supplier name is not set.');
+        }
+        
+        if (Tools::strlen(Tools::getValue('description')) == 0){
+            $errors[] = $this->l('The description is not set.');
+        }
+        
+        if (Tools::strlen(Tools::getValue('discount_rate')) == 0){
+            $errors[] = $this->l('The discount rate is not set.');
+        }
+
+        if (Tools::strlen(Tools::getValue('discount_code')) == 0){
+            $errors[] = $this->l('The discount code is not set.');
+        }
+
+        if (count($errors))
+        {                        
+            //d($this->generarCodigo(7));
+            //d(Tools::displayError(implode('<br />', $errors)));
+            return false;
+        }
+
+        return true;     
+    }
+
+    function generarCodigo($longitud) {
+        $key = '';
+        $pattern = '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $max = strlen($pattern)-1;
+        for($i=0;$i < $longitud;$i++) $key .= $pattern{mt_rand(0,$max)};
+        return $key;
+    } 
 }
