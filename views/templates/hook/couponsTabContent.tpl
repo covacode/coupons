@@ -3,7 +3,7 @@
         <div class="row">
             {if isset ($coupons)}
                 {foreach from=$coupons item=coupon}                   
-                    <a href="{$link->getModuleLink('coupons','coupons')}" target="_blank">
+                    <a href="{$link->getModuleLink('coupons','coupon',[ 'id_coupons' => {$coupon.id_coupons}] )}" target="_blank">
                         <div class="col-md-3">                            
                             <div class="thumbnailCoupons text-center">
                                 <img class="img-back" src="{$pathCover}{$coupon.id_coupons}.jpg" alt="{$coupon.supplier_name}"/>
