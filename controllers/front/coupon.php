@@ -4,5 +4,9 @@ if(!class_exists('CouponsModel'))
     
 class CouponsCouponModuleFrontController extends ModuleFrontController
 { 
-    
+    public function initContent(){        
+        $coupons = CouponsModel::getCouponsByPk($_GET['id_coupons'], true); 
+        d($coupons);
+        parent::initContent();
+    }
 }
