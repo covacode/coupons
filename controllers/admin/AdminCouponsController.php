@@ -3,8 +3,7 @@ if(!class_exists('CouponsModel'))
     require_once _PS_MODULE_DIR_ . 'coupons/classes/CouponsModel.php';
 class AdminCouponsController extends ModuleAdminController
 {        
-    public function __construct()
-    {
+    public function __construct(){
         $this->lang = false;
         $this->bootstrap = true;
         $this->table = 'coupons';
@@ -85,7 +84,6 @@ class AdminCouponsController extends ModuleAdminController
     }
 
     public function renderForm(){
-
         if (!($coupons = $this->loadObject(true))) {
             return;
         }
@@ -187,47 +185,45 @@ class AdminCouponsController extends ModuleAdminController
         $this->fields_form['submit'] = array(
             'title' => $this->l('Save')
         );
-
-        //return $this->postValidation() . parent::renderForm();
+        
         return parent::renderForm();
     }
-   
-    public function initContent()
-    {
-        parent::initContent();
-    }
-           
-    public function postProcess()
-    {        
+              
+    public function postProcess(){        
         $errors = array();
 
-        if (Tools::strlen(Tools::getValue('supplier_name')) == 0){
-            $errors[] = $this->l('The supplier name is not set.');
-        }
-        
-        if (Tools::strlen(Tools::getValue('description')) == 0){
-            $errors[] = $this->l('The description is not set.');
-        }
-        
-        if (Tools::strlen(Tools::getValue('discount_rate')) == 0){
-            $errors[] = $this->l('The discount rate is not set.');
-        }
+        if(Tools::isSubmit('submitAddcoupons')){
 
-        if (Tools::strlen(Tools::getValue('discount_code')) == 0){
-            $errors[] = $this->l('The discount code is not set.');
-        }
+            if (Tools::strlen(Tools::getValue('supplier_name')) == 0){
+                $errors[] = $this->module->l('The supplier name is not set.');
+            }
+            
+            if (Tools::strlen(Tools::getValue('description')) == 0){
+                $errors[] = $this->module->l('The description is not set.');
+            }
+            
+            if (Tools::strlen(Tools::getValue('discount_rate')) == 0){
+                $errors[] = $this->module->l('The discount rate is not set.');
+            }
+    
+            if (Tools::strlen(Tools::getValue('discount_code')) == 0){
+                $errors[] = $this->module->l('The discount code is not set.');
+            }
 
-        if (count($errors))
-        {                        
-            //d($this->generarCodigo(7));
-            //d(Tools::displayError(implode('<br />', $errors)));
-            return false;
+            if (count($errors)){
+                //d($this->generarCodigo(7));
+                d(Tools::displayError(implode('<br />', $errors)));
+                return false;
+            }
         }
-
-        parent::postProcess();    
+        parent::postProcess();
     }
 
-    public function generarCodigo($longitud) {
+    public function initContent(){
+        parent::initContent();
+    }
+
+    public function generarCodigo($longitud){
         $key = '';
         $pattern = '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $max = strlen($pattern)-1;
