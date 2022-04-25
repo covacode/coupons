@@ -58,4 +58,17 @@ class CouponsModel extends CouponsObjectModel
             ->where('active='.(int)$active);
         return Db::getInstance()->executeS($q);
     }
+
+    public static function getCouponsByPk($pk , $active = true) {
+        if($pk>0){
+            $q = new DbQuery();
+            $q->select('*')
+            ->from('coupons')            
+            ->where('active='.(int)$active)
+            ->where('id_coupons='.(int)$pk);
+            return Db::getInstance()->executeS($q);
+        }else{
+            return false;
+        }     
+    }
 }

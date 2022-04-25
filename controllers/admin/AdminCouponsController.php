@@ -188,6 +188,7 @@ class AdminCouponsController extends ModuleAdminController
             'title' => $this->l('Save')
         );
 
+        //return $this->postValidation() . parent::renderForm();
         return parent::renderForm();
     }
    
