@@ -2,7 +2,7 @@
 if(!class_exists('CouponsModel'))
     require_once _PS_MODULE_DIR_ . 'coupons/classes/CouponsModel.php';
 class AdminCouponsController extends ModuleAdminController
-{        
+{            
     public function __construct(){
         $this->lang = false;
         $this->bootstrap = true;
@@ -190,29 +190,28 @@ class AdminCouponsController extends ModuleAdminController
     }
               
     public function postProcess(){        
-        $errors = array();
-
+        
         if(Tools::isSubmit('submitAddcoupons')){
 
             if (Tools::strlen(Tools::getValue('supplier_name')) == 0){
-                $errors[] = $this->module->l('The supplier name is not set.');
+                $this->errors[] = $this->module->l('The supplier name is not set.');
             }
             
             if (Tools::strlen(Tools::getValue('description')) == 0){
-                $errors[] = $this->module->l('The description is not set.');
+                $this->errors[] = $this->module->l('The description is not set.');
             }
             
             if (Tools::strlen(Tools::getValue('discount_rate')) == 0){
-                $errors[] = $this->module->l('The discount rate is not set.');
+                $this->errors[] = $this->module->l('The discount rate is not set.');
             }
     
             if (Tools::strlen(Tools::getValue('discount_code')) == 0){
-                $errors[] = $this->module->l('The discount code is not set.');
+                $this->errors[] = $this->module->l('The discount code is not set.');
             }
-
-            if (count($errors)){
+            
+            if (count($this->errors)){
                 //d($this->generarCodigo(7));
-                d(Tools::displayError(implode('<br />', $errors)));
+                //d(Tools::displayError(implode('<br />', $this->errors)));
                 return false;
             }
         }
@@ -221,6 +220,11 @@ class AdminCouponsController extends ModuleAdminController
 
     public function initContent(){
         parent::initContent();
+    }
+
+    public function display(){
+        $this->errors;
+        parent::display();
     }
 
     public function generarCodigo($longitud){
