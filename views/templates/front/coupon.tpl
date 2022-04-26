@@ -10,7 +10,7 @@
                     <div class="col-md-12">                            
                         <div class="thumbnail-coupons-detail text-center">
 
-                            <div class="col-md-8" style="padding:0;">
+                            <div class="col-md-8 separador-detail">
                                 <img class="img-back-detail" src="{$pathCover}{$coupon.id_coupons}.jpg" alt="{$coupon.supplier_name}"/>
                             </div>
                             
